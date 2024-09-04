@@ -1,11 +1,11 @@
-%³ÌĞò¹¦ÄÜ£º²ÉÓÃ»ù±¾Metropolis¶ÔMNISTÑù±¾¼¯½øĞĞ³éÑù
+%ç¨‹åºåŠŸèƒ½ï¼šé‡‡ç”¨åŸºæœ¬Metropoliså¯¹MNISTæ ·æœ¬é›†è¿›è¡ŒæŠ½æ ·
 
-%% µ¼ÈëµÄÑµÁ·¼¯ËùÓĞÑù±¾
-    Path ='G:\ÑĞ¾¿Éú\ÊµÑé×ÊÁÏ\»úÆ÷Ñ§Ï°\Êı¾İ¼¯\ÊÖĞ´Êı×ÖMNIST\MNIST_bmp\train_img\';   
+%% å¯¼å…¥çš„è®­ç»ƒé›†æ‰€æœ‰æ ·æœ¬
+    Path ='G:\ç ”ç©¶ç”Ÿ\å®éªŒèµ„æ–™\æœºå™¨å­¦ä¹ \æ•°æ®é›†\æ‰‹å†™æ•°å­—MNIST\MNIST_bmp\train_img\';   
     File = dir(fullfile(Path,'*.bmp'));  
     FileNames = {File.name}'; 
     
-%% Ô¤´¦Àí:»ñÈ¡¸÷·ÖÀàÍ¼Æ¬Êı
+%% é¢„å¤„ç†:è·å–å„åˆ†ç±»å›¾ç‰‡æ•°
     N=zeros(10,1);
     for i=1:length(FileNames)
         num=str2double(FileNames{i}(1));
@@ -13,8 +13,8 @@
     end
     M=[0;N];
     
-%% ÇóÄ¿±ê·Ö²¼²ÎÊı£¬Ä¿±ê·Ö²¼ÉèÎª¶àÎ¬¸ßË¹·Ö²¼N(Average,Variance)£¬½¨Òé·Ö²¼ÎªN(u,Sigma)
-    % Çóu
+%% æ±‚ç›®æ ‡åˆ†å¸ƒå‚æ•°ï¼Œç›®æ ‡åˆ†å¸ƒè®¾ä¸ºå¤šç»´é«˜æ–¯åˆ†å¸ƒN(Average,Variance)ï¼Œå»ºè®®åˆ†å¸ƒä¸ºN(u,Sigma)
+    % æ±‚u
     x=zeros(784,1);
     Average=zeros(784,10);
     for i=1:10
@@ -25,7 +25,7 @@
             Average(:,i)=Average(:,i)+x/N(i);             
         end
     end
-    %Çó¡Æ
+    %æ±‚âˆ‘
     Variance=zeros(784,784);
     for i=1:10
         for j=1:N(i)
@@ -42,7 +42,7 @@
     H=Variance+10*max(diag(Variance))*eye(784,784);
     for i=1:10
         X=zeros(784,num);
-        %% ±£´æÒ»¸ö·ÖÀàµÄ³éÑù
+        %% ä¿å­˜ä¸€ä¸ªåˆ†ç±»çš„æŠ½æ ·
         for j=1:num-1
             x=X(:,j);
             px=mvnpdf(x',Average(:,i)',H);
@@ -56,7 +56,7 @@
                 X(:,j+1)=x;
             end 
         end
-        %½«³éÑùµÃµ½µÄÑù±¾ÒÔtxtĞÎÊ½Êä³ö
+        %å°†æŠ½æ ·å¾—åˆ°çš„æ ·æœ¬ä»¥txtå½¢å¼è¾“å‡º
         [m, n] = size(X);
         SavePath='C:\Users\llll\Desktop\1\';
         txtname=[num2str(i-1),'.txt'];
@@ -67,7 +67,7 @@
         end
     end
 
-%% ÏÔÊ¾k·½Ïò¸ßË¹º¯Êı
+%% æ˜¾ç¤ºkæ–¹å‘é«˜æ–¯å‡½æ•°
     k=491;
     figure(1);
     dx=0.5;
@@ -78,8 +78,8 @@
     plot(xx,yy);
     hold on;    
     
-%   ÏÔÊ¾³éÑù¾ØÕóµÄk·½ÏòÖ±·½Í¼
-    %xk·½Ïò
+%   æ˜¾ç¤ºæŠ½æ ·çŸ©é˜µçš„kæ–¹å‘ç›´æ–¹å›¾
+    %xkæ–¹å‘
     figure(1);
     nb=histc(X(k,1:num),xx); 
     bar(xx+dx/2,nb/num/dx); 
