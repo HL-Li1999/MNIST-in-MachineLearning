@@ -1,31 +1,31 @@
-%³ÌÐò¹¦ÄÜ£ºÀûÓÃMAP·¨ÄâºÏ¶þÔª·ÇÏßÐÔº¯Êý
-%% ÉèÖÃ²ÎÊý
+%ç¨‹åºåŠŸèƒ½ï¼šåˆ©ç”¨MAPæ³•æ‹ŸåˆäºŒå…ƒéžçº¿æ€§å‡½æ•°
+%% è®¾ç½®å‚æ•°
 miu=1;
-%% Ñù±¾Êý¾Ý³õÊ¼»¯
+%% æ ·æœ¬æ•°æ®åˆå§‹åŒ–
 x1=-5:0.1:5;
 x2=-5:0.1:5;
-%½«×ø±êÏòÁ¿x1¡¢x2×ª»»Îª¸ñµã¾ØÕó
+%å°†åæ ‡å‘é‡x1ã€x2è½¬æ¢ä¸ºæ ¼ç‚¹çŸ©é˜µ
 [x1,x2]=meshgrid(x1,x2); 
 t=4*x1.^2+5*x2.^2+6;
 figure(1);
 mesh(x1,x2,t);
-title('ÀíÏëÊý¾ÝÍ¼');
-%% ÇóÏòÁ¿t(º¬ÔëÉù)
+title('ç†æƒ³æ•°æ®å›¾');
+%% æ±‚å‘é‡t(å«å™ªå£°)
 t=t+randn(size(t));
 t=t(:);
-%% Çó¾ØÕó§¶
+%% æ±‚çŸ©é˜µÐ¤
 fx0=ones(size(x1));
 fx1=x1.^2;
 fx2=x2.^2;
 fhi=[fx0(:),fx1(:),fx2(:)];
-%% ÇóÏòÁ¿Wmap
+%% æ±‚å‘é‡Wmap
 Wmap=(miu*eye(size(fhi'*fhi))+fhi'*fhi)\fhi'*t;
-%% ÇóÏòÁ¿y(x;w)
+%% æ±‚å‘é‡y(x;w)
 y=fhi*Wmap;
-%% ÇóÎó²î£ºÒÔÆ½¾ù·½²î×÷ÎªÎó²î
+%% æ±‚è¯¯å·®ï¼šä»¥å¹³å‡æ–¹å·®ä½œä¸ºè¯¯å·®
 R=sum((y-t).^2)/length(y);
-%% »­ÄâºÏÍ¼
+%% ç”»æ‹Ÿåˆå›¾
 y=reshape(y,101,101);
 figure(2);
 mesh(x1,x2,y);
-title('ÄâºÏÊý¾ÝÍ¼');
+title('æ‹Ÿåˆæ•°æ®å›¾');
