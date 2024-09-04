@@ -1,14 +1,14 @@
-%Àà±ðÏà½»¡ª¡ªÉú³ÉÄ£ÐÍ
-    %% ÉèÖÃ²ÎÊý
-    %c1£º¾ØÕó¡Æ¼ÓÉÏc1*eye()£¬È·±£¡Æ¿ÉÄæ
+%ç±»åˆ«ç›¸äº¤â€”â€”ç”Ÿæˆæ¨¡åž‹
+    %% è®¾ç½®å‚æ•°
+    %c1ï¼šçŸ©é˜µâˆ‘åŠ ä¸Šc1*eye()ï¼Œç¡®ä¿âˆ‘å¯é€†
     c1=0.001;
 
-    %% ¶ÁÈ¡ÑµÁ·¼¯ÖÐËùÓÐÍ¼Æ¬
-    train_Path = 'C:\Users\llll\Desktop\Àà±ðÏà½»Êý¾Ý¼¯\train\';   
+    %% è¯»å–è®­ç»ƒé›†ä¸­æ‰€æœ‰å›¾ç‰‡
+    train_Path = 'C:\Users\llll\Desktop\ç±»åˆ«ç›¸äº¤æ•°æ®é›†\train\';   
     train_File = dir(fullfile(train_Path,'*.bmp'));  
     train_FileNames = {train_File.name}';           
-    %% ÇóÏ¸·ÖÀà±ðÑù±¾ÊýN
-    %00-Ó¡Ë¢×ÖÄ¸£¬01-Ó¡Ë¢Êý×Ö£¬10-ÊÖÐ´×ÖÄ¸£¬11-ÊÖÐ´Êý×Ö
+    %% æ±‚ç»†åˆ†ç±»åˆ«æ ·æœ¬æ•°N
+    %00-å°åˆ·å­—æ¯ï¼Œ01-å°åˆ·æ•°å­—ï¼Œ10-æ‰‹å†™å­—æ¯ï¼Œ11-æ‰‹å†™æ•°å­—
     N=zeros(4,1);
     for i=1:length(train_FileNames)
         num1=str2double(train_FileNames{i}(1));
@@ -26,11 +26,11 @@
             N(4)=N(4)+1;
         end
     end
-    %% ¡¾1¡¿ÇóPi=[P(1x);P(x1)]
+    %% ã€1ã€‘æ±‚Pi=[P(1x);P(x1)]
     P1x=(N(3)+N(4))/sum(N);
     Px1=(N(2)+N(4))/sum(N);
     Pi=[P1x;Px1];
-    %% ¡¾2¡¿Çó¦Ì1=[¦Ì(1x),¦Ì(x1)]£¨784*2£©£¬¦Ì2=[¦Ì(0x),¦Ì(x0)]£¨784*2£©
+    %% ã€2ã€‘æ±‚Î¼1=[Î¼(1x),Î¼(x1)]ï¼ˆ784*2ï¼‰ï¼ŒÎ¼2=[Î¼(0x),Î¼(x0)]ï¼ˆ784*2ï¼‰
     average1=zeros(784,2);
     average2=zeros(784,2);
     for i=1:length(train_FileNames)
@@ -57,7 +57,7 @@
             average1(:,2)=average1(:,2)+x/sum(N);
         end
     end
-    %% ¡¾3¡¿Çó¡Æ1,¡Æ2(784*(784*2))
+    %% ã€3ã€‘æ±‚âˆ‘1,âˆ‘2(784*(784*2))
     variance1=zeros(784,784);
     variance2=zeros(784,784);
     for i=1:length(train_FileNames)
@@ -67,7 +67,7 @@
         Img1=imresize(Img,[28,28]);
         Img2=im2bw(Img1);
         x=im2double(Img2(:));
-        %var1IS0Ö¸µÚÒ»¸öÔªËØÎª0µÄ¡ÆÀÛ¼Ó²¿·Ö£¬ÆäÓàÍ¬Àí
+        %var1IS0æŒ‡ç¬¬ä¸€ä¸ªå…ƒç´ ä¸º0çš„âˆ‘ç´¯åŠ éƒ¨åˆ†ï¼Œå…¶ä½™åŒç†
         var1IS0=0;
         var1IS1=0;
         var2IS0=0;
@@ -91,8 +91,8 @@
         variance1=variance1+var1IS0+var1IS1;
         variance2=variance2+var2IS0+var2IS1;
     end     
-    %% ¡¾4¡¿²âÊÔ
-    test_Path = 'C:\Users\llll\Desktop\Àà±ðÏà½»Êý¾Ý¼¯\test\';   
+    %% ã€4ã€‘æµ‹è¯•
+    test_Path = 'C:\Users\llll\Desktop\ç±»åˆ«ç›¸äº¤æ•°æ®é›†\test\';   
     test_File = dir(fullfile(test_Path,'*.bmp'));  
     test_FileNames = {test_File.name}'; 
 
@@ -102,7 +102,7 @@
         Img1=imresize(Img,[28,28]);
         Img2=im2bw(Img1);
         x=im2double(Img2(:));
-        %Çóy
+        %æ±‚y
         y=zeros(2,1);
         P1Is1=Pi(1)*mvnpdf(x',average1(:,1)',variance1+c1*eye(784,784));
         P1Is0=(1-Pi(1))*mvnpdf(x',average1(:,2)',variance1+c1*eye(784,784));
@@ -110,11 +110,11 @@
         P2Is0=(1-Pi(2))*mvnpdf(x',average2(:,2)',variance2+c1*eye(784,784));
         y(1)=(P1Is1>=P1Is0);
         y(2)=(P2Is1>=P2Is0);
-        %Çót
+        %æ±‚t
         num1=str2double(test_FileNames{i}(1));
         num2=str2double(test_FileNames{i}(2));
         t=[num1;num2];
-        %ÅÐ¶Ï
+        %åˆ¤æ–­
         if sum(y==t)==2
             correct=correct+1;
         end
