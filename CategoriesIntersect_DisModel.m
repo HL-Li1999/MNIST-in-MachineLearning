@@ -1,19 +1,19 @@
-%Àà±ğÏà½»¡ª¡ªÅĞ±ğÄ£ĞÍ
-%% µ÷½Ú²ÎÊı
-%ÉèÖÃ»áÓ°ÏìÊ¶±ğ×¼È·ÂÊµÄ²ÎÊıµÄÖµ
-%c1£ºÃ¿¸ö°×ÏñËØµÄÔªËØÖµÎª1*c1
+%ç±»åˆ«ç›¸äº¤â€”â€”åˆ¤åˆ«æ¨¡å‹
+%% è°ƒèŠ‚å‚æ•°
+%è®¾ç½®ä¼šå½±å“è¯†åˆ«å‡†ç¡®ç‡çš„å‚æ•°çš„å€¼
+%c1ï¼šæ¯ä¸ªç™½åƒç´ çš„å…ƒç´ å€¼ä¸º1*c1
 c1=1;
-%c2£ºw³õÊ¼ÖµÎªc2*ones()
+%c2ï¼šwåˆå§‹å€¼ä¸ºc2*ones()
 c2=1; 
-%c3£ºH²»Õı¶¨Òò´Ë¼ÓÉÏc3*max(abs(diag(H)))*eye()
+%c3ï¼šHä¸æ­£å®šå› æ­¤åŠ ä¸Šc3*max(abs(diag(H)))*eye()
 c3=1e-6;
-%% ³õÊ¼»¯
-    %¶ÁÈ¡ÑµÁ·¼¯ÖĞËùÓĞÍ¼Æ¬
-    train_Path ='C:\Users\llll\Desktop\Àà±ğÏà½»Êı¾İ¼¯\train\';   
+%% åˆå§‹åŒ–
+    %è¯»å–è®­ç»ƒé›†ä¸­æ‰€æœ‰å›¾ç‰‡
+    train_Path ='C:\Users\llll\Desktop\ç±»åˆ«ç›¸äº¤æ•°æ®é›†\train\';   
     train_File = dir(fullfile(train_Path,'*.bmp'));  
     train_FileNames = {train_File.name}';            
-    %ÇóÏ¸·ÖÀà±ğÑù±¾ÊıN
-    %00-Ó¡Ë¢×ÖÄ¸£¬01-Ó¡Ë¢Êı×Ö£¬10-ÊÖĞ´×ÖÄ¸£¬11-ÊÖĞ´Êı×Ö
+    %æ±‚ç»†åˆ†ç±»åˆ«æ ·æœ¬æ•°N
+    %00-å°åˆ·å­—æ¯ï¼Œ01-å°åˆ·æ•°å­—ï¼Œ10-æ‰‹å†™å­—æ¯ï¼Œ11-æ‰‹å†™æ•°å­—
     N=zeros(4,1);
     for i=1:length(train_FileNames)
         num1=str2double(train_FileNames{i}(1));
@@ -31,7 +31,7 @@ c3=1e-6;
             N(4)=N(4)+1;
         end
     end
-%% ÑµÁ·
+%% è®­ç»ƒ
     itnum=1000;
     wn_1=zeros(785,itnum+1);wn_2=zeros(785,itnum+1);
     wn_1(:,1)=c2*ones(785,1);wn_2(:,1)=c2*ones(785,1);
@@ -40,32 +40,32 @@ c3=1e-6;
     for iterate=1:itnum
         wnow_1=wn_1(:,iterate); 
         wnow_2=wn_2(:,iterate);       
-        %ÀÛ¼ÓÁ¿³õÊ¼Öµ
+        %ç´¯åŠ é‡åˆå§‹å€¼
         Ew_1i=zeros(sum(N),1);Ew_2i=zeros(sum(N),1);
         Gradient_1i=zeros(785,sum(N));Gradient_2i=zeros(785,sum(N));
         H_1=zeros(785,785);H_2=zeros(785,785);
         for i=1:sum(N)
-           %% ¡¾1¡¿Çót=[t1;t2]
+           %% ã€1ã€‘æ±‚t=[t1;t2]
             num1=str2double(train_FileNames{i}(1));
             num2=str2double(train_FileNames{i}(2));
             t=[num1;num2];
-           %% ¡¾2¡¿Çóy=[y1;y2]
+           %% ã€2ã€‘æ±‚y=[y1;y2]
             Img=imread(strcat(train_Path,train_FileNames{i}));
             Img1=imresize(Img,[28,28]);
             Img2=im2bw(Img1);
             x=im2double(Img2(:))*c1;
             x_feature=[1;x]; 
             %a=[a1;a2]
-            %ÏŞÖÆ-aµÄ×î´óÖµ<=100£¬±ÜÃâ-aÌ«´óµ¼ÖÂexp(-a)³öÏÖInfÖµ
+            %é™åˆ¶-açš„æœ€å¤§å€¼<=100ï¼Œé¿å…-aå¤ªå¤§å¯¼è‡´exp(-a)å‡ºç°Infå€¼
             a=[wnow_1,wnow_2]'*x_feature; 
             if min(a)<-100
                 b=(-100-min(a))*ones(2,1);
                 a=a+b;
             end
-            %y=[y1,y2]£¬×¢ÒâÓÃµã³ı·ñÔò»á±ä³ÉĞĞÏòÁ¿ÇÒÖµ²»ÕıÈ·
+            %y=[y1,y2]ï¼Œæ³¨æ„ç”¨ç‚¹é™¤å¦åˆ™ä¼šå˜æˆè¡Œå‘é‡ä¸”å€¼ä¸æ­£ç¡®
             y=[1;1]./(1+exp(-a));
-           %% ¡¾3¡¿ÇóE1(w)¡¢E2(w)
-            %ÏŞÖÆy¡Ê[0.01,0.99]£¬±ÜÃây³öÏÖ0µ¼ÖÂlog(y)»òlog(1-y)Îª-InfÖµ
+           %% ã€3ã€‘æ±‚E1(w)ã€E2(w)
+            %é™åˆ¶yâˆˆ[0.01,0.99]ï¼Œé¿å…yå‡ºç°0å¯¼è‡´log(y)æˆ–log(1-y)ä¸º-Infå€¼
             if y(1)<0.01
                 y(1)=0.01;
             end
@@ -80,10 +80,10 @@ c3=1e-6;
             end
             Ew_1i(i)=-(t(1)*log(y(1))+(1-t(1))*log(1-y(1)));
             Ew_2i(i)=-(t(2)*log(y(2))+(1-t(2))*log(1-y(2)));
-           %% ¡¾4¡¿ÇóGradient_1(w)¡¢Gradient_2(w)
+           %% ã€4ã€‘æ±‚Gradient_1(w)ã€Gradient_2(w)
             Gradient_1i(:,i)=(y(1)-t(1))*x_feature;
             Gradient_2i(:,i)=(y(2)-t(2))*x_feature;
-           %% ¡¾5¡¿ÇóH(w)=H1(w)+H2(w)
+           %% ã€5ã€‘æ±‚H(w)=H1(w)+H2(w)
             H_1=H_1+(y(1)*(1-y(1)))*(x_feature*x_feature');
             H_2=H_2+(y(2)*(1-y(2)))*(x_feature*x_feature');
         end
@@ -93,11 +93,11 @@ c3=1e-6;
         Ewn_2(iterate)=Ew_2;
         Gradient_1=sum(Gradient_1i,2);
         Gradient_2=sum(Gradient_2i,2);
-       %% ¡¾6¡¿Çów_next
+       %% ã€6ã€‘æ±‚w_next
         c3_it=c3;
         v=2;
         while 1
-            %×¢Òâ¼Ó¾ø¶ÔÖµ£¬·ñÔò»á³öÏÖ¶Ô½ÇÔªËØ<=0£¬×î´óÖµÎª0µÄÇé¿ö£¬ÕâÑùc3¶à´ó¶¼Ã»ÓÃ
+            %æ³¨æ„åŠ ç»å¯¹å€¼ï¼Œå¦åˆ™ä¼šå‡ºç°å¯¹è§’å…ƒç´ <=0ï¼Œæœ€å¤§å€¼ä¸º0çš„æƒ…å†µï¼Œè¿™æ ·c3å¤šå¤§éƒ½æ²¡ç”¨
             H1_rec=H1+c3_it*max(abs(diag(H1)))*eye(785,785);
             if det(H1_rec)<=0
                 c3_it=c3_it*v;
@@ -122,8 +122,8 @@ c3=1e-6;
         wn_1(:,iterate+1)=wnext_1;
         wn_2(:,iterate+1)=wnext_2;
     end
-%% ²âÊÔ
-    test_Path = 'C:\Users\llll\Desktop\Àà±ğÏà½»Êı¾İ¼¯\test\';   
+%% æµ‹è¯•
+    test_Path = 'C:\Users\llll\Desktop\ç±»åˆ«ç›¸äº¤æ•°æ®é›†\test\';   
     test_File = dir(fullfile(test_Path,'*.bmp'));  
     test_FileNames = {test_File.name}'; 
 
@@ -134,7 +134,7 @@ c3=1e-6;
         test_Img2=im2bw(test_Img1);
         test_x=im2double(test_Img2(:))*c1;
         testx_feature=[1;test_x];
-        %Çóy
+        %æ±‚y
         testw_1=wn_1(:,201);
         testw_2=wn_2(:,201);
         testa_1=testw_1'*testx_feature;
@@ -146,17 +146,17 @@ c3=1e-6;
         if testa_2>=0
             test_y(2)=1;
         end
-        %Çót
+        %æ±‚t
         test_num1=str2double(test_FileNames{i}(1));
         test_num2=str2double(test_FileNames{i}(2));
         test_t=[test_num1;test_num2];
-        %ÅĞ¶Ï
+        %åˆ¤æ–­
         if sum(test_y==test_t)==2
             correct=correct+1;
         end
     end
     rate=correct/length(test_FileNames);
-%% »­Í¼
+%% ç”»å›¾
     I=1:itnum;
     plot(I,Ewn_1);
     hold on;
